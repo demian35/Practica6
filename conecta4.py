@@ -16,48 +16,34 @@ class Juego:
 
     def __init__(self):
 
-        self.table = []#[[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",]]
+        self.table = [[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",],[" "," "," "," "," "," ",]]
         self.terminado = False
         self.ganador = " "
         self.turno = ""#para recordar el turno del jugador si deciden terminar el juego
 
     def genera_tablero(self):
-        #imprimir bien el tablero
-        #y que haga los casos
-        print("-----------------")
-        for i in range(6):
-        	self.table.append([0] *7)
-        n = 0
-        for c in range(6):
-        	n="|"
-        	for f in range(7):
-        		n = n + " " + str(self.table[c][f])
-        	n=n+" |"
-        	print(n)
-        print("-----------------")
-        print("  0  1  2  3  4  5  6")
-        #m = 0
-        #while(m < 12):
-        #    if(m%2 == 0):
-        #        f = int(1/2)
-        #        for c in range(6):
-        #            print("| "+self.table[f][c]+" ", end = '')#,end=' ') ##Me marca como erro de sintax por el end
-        #        print("|")
-        #    if(m%2 != 0):
-        #        print("-----"*6)
-        #    m += 1
-        #print("   1   2   3   4   5   6")
+        m = 0
+        while(m < 14):
+            if(m%2 == 0):
+                f = int(m/2)
+                for c in range(6):
+                    print("| "+self.table[f][c]+" ", end = '')#,end=' ') ##Me marca como erro de sintax por el end
+                print("|")
+            if(m%2 != 0):
+                print("-----"*5)
+            m += 1
+        print("  1   2   3   4   5   6")
 
     def tira(self,jugador):
         try:
             c = int(input("Turno de: "+jugador.nombre+"\nElige la columna donde quieras meter la ficha: "))
             self.genera_tablero()
             if(c > 6 or c < 1):
-                print("##Fuera de rango##")
+                print("###--Fuera de rango--###")
         except ValueError:
             print("Entrada Invalida, Debe ser un numero")
 
-        f = 5#filas
+        f = 6#filas
         a = False
 
         while not a:
@@ -75,17 +61,17 @@ class Juego:
         f = 5#compara las filas
         while(f >= 0 and self.terminado == False):
             #compara la fila f 2-5
-            if(jugador.caracter == self.table[f][5] and self.table[f][5] == self.table[f][4] and self.table[f][4] == self.table[f][3]): #and self.table[f][3] == self.table[f][2):
+            if(jugador.caracter == self.table[f][5] and self.table[f][5] == self.table[f][4] and self.table[f][4] == self.table[f][3] and self.table[f][3] == self.table[f][2]):
                 self.terminado = True
                 self.ganador = "Ha ganado: "+jugador.nombre
                 print("Ha ganado: "+jugador.nombre)
             #compara la fila f 1-4
-            elif(jugador.caracter == self.table[f][4] and self.table[f][4] == self.table[f][3] and self.table[f][3] == self.table[f][2] and self.table[f][2] == self.table[f][1] ):#lo mismo
+            elif(jugador.caracter == self.table[f][4] and self.table[f][4] == self.table[f][3] and self.table[f][3] == self.table[f][2] and self.table[f][2] == self.table[f][1]):
                 self.terminado = True
                 self.ganador = "Ha ganado: "+jugador.nombre
                 print("Ha ganado: "+jugador.nombre)
             #compara la fila f columna 0-3
-            elif(jugador.caracter == self.table[f][3] and self.table[f][3] == self.table[f][2] and self.table[f][2] == self.table[f][1] and self.table[f][1] == self.table[f][0]):#lo mismo aunque no creo
+            elif(jugador.caracter == self.table[f][3] and self.table[f][3] == self.table[f][2] and self.table[f][2] == self.table[f][1] and self.table[f][1] == self.table[f][0]):
                 self.terminado = True
                 self.ganador = "Ha ganado: "+jugador.nombre
                 print("Ha ganado: "+jugador.nombre)
@@ -93,7 +79,7 @@ class Juego:
         c = 0#compara las columnas
         while(c >= 0 and self.terminado == False):
             #compara la columna c 2-5
-            if(jugador.caracter == self.table[c][5] and self.table[c][5] == self.table[c][4] and self.table[c][4] == self.table[c][3] and self.table[c][3] == self.table[c][2]):#posiblemente falte un caso
+            if(jugador.caracter == self.table[c][5] and self.table[c][5] == self.table[c][4] and self.table[c][4] == self.table[c][3] and self.table[c][3] == self.table[c][2]):
                 self.terminado = True
                 self.ganador = "Ha ganado: "+jugador.nombre
                 print("Ha ganado: "+jugador.nombre)
@@ -157,18 +143,16 @@ class Juego:
         i=random.randint(1,2)#para que sea aleatorio quien empieza a tirar la ficha
         while(self.terminado == False):
 
-            if(i%2 == 0):
-                self.tira(jugador1)#el jugador1 tira la ficha
-                self.ganar(jugador1)#verifica si ha ganado
+            #if(i%2 == 0):
+            self.tira(jugador1)#el jugador1 tira la ficha
+            self.ganar(jugador1)#verifica si ha ganado
 
-            elif(i%2 != 0):
-                self.tira(jugador2)#el jugador2 tira la ficha
-                self.ganar(jugador2)#verifica si ha ganado
-            i += 1
-            self.Terminado()#verifica si aun quedan jugadas o tiros disponibles
-        ##########################3
-
-            #######################
+            #elif(i%2 != 0):
+            self.tira(jugador2)#el jugador2 tira la ficha
+            self.ganar(jugador2)#verifica si ha ganado
+        i += 1
+        self.Terminado()#verifica si aun quedan jugadas o tiros disponibles
+        #########################
 
 print("Bienvenido al juego conecta 4")
 jugador_1 = Jugador()
@@ -180,6 +164,7 @@ jugador_2.caracteristicas("Jugador 2, Ingresa tu nombre: ")
 table = Juego()
 table.jugar(jugador_1, jugador_2)
 
+##############3
 def volver_a_jugar(pregunta):
     if(pregunta == 1):
         entrada = input("Jugaran los mismos jugadores (si/no): ")
@@ -200,13 +185,13 @@ while(inicio):
         if(jugadores == "si"):
             print("Juegan los mismos jugadores, la partida sera aleatoria")
         elif(jugadores == "no"):
-            cambio = volver_a_jugar(2)
-            if(cambio == "ambos"):
+            reinicio = volver_a_jugar(2)
+            if(reinicio == "ambos"):
                 jugador_1.caracteristicas("Jugador 1, Ingresa tu nombre: ")
                 jugador_2.caracteristicas("Jugador 2, Ingresa tu nombre: ")
-            elif(cambio == 1):
+            elif(reinicio == 1):
                 jugador_1.caracteristicas("Jugador 1, Ingresa tu nombre: ")
-            elif(cambio == 2):
+            elif(reinicio == 2):
                 jugador_2.caracteristicas("Jugador 2, Ingresa tu nombre: ")
         table.jugar(jugador_1,jugador_2)
 
