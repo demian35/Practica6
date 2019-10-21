@@ -3,7 +3,7 @@ from os.path import join, dirname, isdir
 from os import environ
 import pymysql
 
-# 'from connectionBasedeDatosJuego import BasedeDatosJuego' para menu y tablero.
+# 'from BasedeDatosJuego import BasedeDatosJuego' para menu y tablero.
 
 class BasedeDatosJuego():
 
@@ -35,19 +35,16 @@ class BasedeDatosJuego():
 		except Exception as e:
 			raise
 
-	def mostrarUsuario(self,id):
-		sql = "SELECT pk_id_jugador , nombre , password FROM Jugador WHERE pk_id_jugador = {}".format(id)
+	def mostrarUsuario(self,nombre):
+		sql = "SELECT * FROM Jugador WHERE nombre = '{}'".format(nombre)
 
 		try:
 			self.cursor.execute(sql)
 			Jugador = self.cursor.fetchone()
 			if Jugador == None:
-				print ("El Usuario con  Id: " + str(id) + " no existe")
+				return None
 			else :
-				print ("Id :", Jugador[0])
-				print ("nombre :", Jugador[1])
-				print ("contraseña:", Jugador[2])
-				print ("_____\n")
+				return Jugador[2]
 
 		except Exception as e:
 			raise
@@ -118,5 +115,5 @@ class BasedeDatosJuego():
 
 
 database = BasedeDatosJuego()
-
+print(database.mostrarUsuario("jorss"))
  # self.connection.commit() insertar/actualizemos,borremos un registro)
