@@ -23,11 +23,11 @@ class Juego:
 
     def genera_tablero(self):
         m = 0
-        while(m < 14):
+        while(m < 12):#14):
             if(m%2 == 0):
                 f = int(m/2)
                 for c in range(6):
-                    print("| "+self.table[f][c]+" ", end = '')#,end=' ') ##Me marca como erro de sintax por el end
+                    print("| "+self.table[f][c]+" ", end = '')
                 print("|")
             if(m%2 != 0):
                 print("-----"*5)
@@ -41,9 +41,9 @@ class Juego:
             if(c > 6 or c < 1):
                 print("###--Fuera de rango--###")
         except ValueError:
-            print("Entrada Invalida, Debe ser un numero")
+            print("##--Entrada Invalida, Debe ser un numero--##")
 
-        f = 6#filas
+        f = 5#6 #filas
         a = False
 
         while not a:
@@ -140,18 +140,37 @@ class Juego:
 
         import random
         self.genera_tablero()
-        i=random.randint(1,2)#para que sea aleatorio quien empieza a tirar la ficha
+        m=random.randint(1,2)#para que sea aleatorio quien empieza a tirar la ficha
         while(self.terminado == False):
 
-            #if(i%2 == 0):
-            self.tira(jugador1)#el jugador1 tira la ficha
-            self.ganar(jugador1)#verifica si ha ganado
+            if(m%2 == 0):
+                self.tira(jugador1)#el jugador1 tira la ficha
+                self.ganar(jugador1)#verifica si ha ganado
 
-            #elif(i%2 != 0):
-            self.tira(jugador2)#el jugador2 tira la ficha
-            self.ganar(jugador2)#verifica si ha ganado
-        i += 1
-        self.Terminado()#verifica si aun quedan jugadas o tiros disponibles
+            elif(m%2 != 0):
+                self.tira(jugador2)#el jugador2 tira la ficha
+                self.ganar(jugador2)#verifica si ha ganado
+            m += 1
+            self.Terminado()#verifica si aun quedan jugadas o tiros disponibles
+        #########################
+        #guarda en la Base de Datos
+        if self.terminado() == True:
+            archivo = open("BasedeDatosJuego.py", "a")
+
+            print("jugadores : "+jugador1.nombre+" y "+jugador2.nombre, file = archivo)
+            print("tablero al final del juego : ",file = archivo)
+            i = 0
+            while i<12:
+                if(i%2) == 0:
+                    f = int(i/2)
+                    for c in range(6):
+                        print("| "+self.table[f][c]+" ",end="",file = archivo)
+                    print("|",file = archivo)
+
+                if(i%2 != 0):
+                    print("-----"*5,file = archivo)
+                i += 1
+
         #########################
 
 print("Bienvenido al juego conecta 4")
@@ -164,7 +183,7 @@ jugador_2.caracteristicas("Jugador 2, Ingresa tu nombre: ")
 table = Juego()
 table.jugar(jugador_1, jugador_2)
 
-##############3
+##############
 def volver_a_jugar(pregunta):
     if(pregunta == 1):
         entrada = input("Jugaran los mismos jugadores (si/no): ")
